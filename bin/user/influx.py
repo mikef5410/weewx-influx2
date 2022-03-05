@@ -468,7 +468,7 @@ class InfluxThread(weewx.restx.RESTThread):
         # FIXME: provide full set of ssl options instead of this hack
         if self.server_url.startswith('https'):
             import ssl
-            return urlopen(request, data=payload, timeout=self.timeout,
+            return urlopen(request, data=bytes(payload,"utf-8"), timeout=self.timeout,
                            context=ssl._create_unverified_context())
         else:
             return super(InfluxThread, self).post_request(request, payload)
@@ -479,13 +479,13 @@ class InfluxThread(weewx.restx.RESTThread):
         # create the list of tags
         tags = ''
         binding = record.pop('binding', None)
-        loginf("Add Bindding Tag = %s" % self.add_binding_tag)
+        #loginf("Add Bindding Tag = %s" % self.add_binding_tag)
         if binding is not None and self.add_binding_tag:
-            loginf("Adding Binding Tag")
+            #loginf("Adding Binding Tag")
             tags = ',binding=%s' % binding
         if self.tags:
             tags = '%s,%s' % (tags, self.tags)
-        loginf("tags = %s" % tags)
+        #loginf("tags = %s" % tags)
 
         # if uploading everything, we must check every time the list of
         # variables that should be uploaded since variables may come and
