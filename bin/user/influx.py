@@ -442,7 +442,7 @@ class InfluxThread(weewx.restx.RESTThread):
         # TODO: Update for InfluxDB v2
         if response.code == 204:
             return
-        payload = response.read().decode()
+        payload = response.read() #.decode()
         if payload and payload.find('results') >= 0:
             logdbg("code: %s payload: %s" % (response.code, payload))
             return
@@ -451,7 +451,7 @@ class InfluxThread(weewx.restx.RESTThread):
 
     def handle_exception(self, e, count):
         if isinstance(e, HTTPError):
-            payload = e.read.decode()
+            payload = e.read() #.decode()
             logdbg("exception: %s payload: %s" % (e, payload))
 
             # Influx DB v2 returns 401 for an invalid token and 403 for insufficient
